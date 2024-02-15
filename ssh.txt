@@ -8,12 +8,21 @@ on linux :
 	sudo apt-get update
 	sudo apt-get install openssh-server
 
+	sudo systemctl start ssh
+	sudo systemctl enable ssh //to keep active ssh every restart
+	sudo systemctl status ssh
+
+	sudo systemctl stop ssh
+	sudo systemctl disable ssh
+
+
 2. Basic Configuratin
 
 Open :
 
 	sudo nano /etc/ssh/sshd_config
 
+remove "#" to active the configuration
 Change Port 
 
 	Port 2222
@@ -36,9 +45,14 @@ To connect
 
 	ssh username@alamat_ip -p port
 
-Clien Side 
 
-Ya, benar. Perintah ssh-keygen digunakan pada sisi klien untuk menghasilkan sepasang kunci SSH, yaitu kunci pribadi dan kunci publik. Kunci pribadi biasanya disimpan di komputer klien, sementara kunci publik akan disalin ke server yang akan diakses.
+
+Client Side 
+
+
+SSH keygen
+
+Perintah ssh-keygen digunakan pada sisi klien untuk menghasilkan sepasang kunci SSH, yaitu kunci pribadi dan kunci publik. Kunci pribadi biasanya disimpan di komputer klien, sementara kunci publik akan disalin ke server yang akan diakses.
 
 Berikut adalah peran masing-masing kunci:
 
@@ -62,7 +76,8 @@ then copy the yourKey.pub to server on folder home/$user/.ssh
 Make file authorized_key And Paste the key there
 
 
-sshd anvance Configuratin
+
+ADVANCE configuration
 
 mambatasi jumlah percobaan login
 	MaxAuthTries 3
