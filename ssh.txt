@@ -1,0 +1,154 @@
+SSH merupakan singkatan dari "Secure Shell," dan ini adalah protokol jaringan kriptografi yang memberikan cara aman untuk mengakses dan mengelola perangkat dan sistem jaringan melalui jaringan yang mungkin tidak aman. SSH banyak digunakan untuk administrasi jarak jauh pada server dan komunikasi aman antar sistem.
+
+Sisi server
+
+1. install SSH server
+
+on linux :
+	sudo apt-get update
+	sudo apt-get install openssh-server
+
+2. Basic Configuratin
+
+Open :
+
+	sudo nano /etc/ssh/sshd_config
+
+Change Port 
+
+	Port 2222
+
+Root login permission
+
+	PermitRootLogin no
+
+Disable password login
+
+	PasswordAuthentication no
+
+restart SSh server
+	sudo service ssh restart
+	atau
+	sudo systemctl restart ssh
+
+
+To connect
+
+	ssh username@alamat_ip -p port
+
+Clien Side 
+
+Ya, benar. Perintah ssh-keygen digunakan pada sisi klien untuk menghasilkan sepasang kunci SSH, yaitu kunci pribadi dan kunci publik. Kunci pribadi biasanya disimpan di komputer klien, sementara kunci publik akan disalin ke server yang akan diakses.
+
+Berikut adalah peran masing-masing kunci:
+
+    Kunci Pribadi (Private Key):
+        Disimpan di komputer klien.
+        Dijaga dengan sangat aman dan tidak boleh dibagikan atau diketahui oleh orang lain.
+        Digunakan untuk mengenkripsi data di sisi klien.
+
+    Kunci Publik (Public Key):
+        Dikirim dan disimpan di server yang akan diakses oleh klien.
+        Tidak rahasia dan bisa dibagikan ke berbagai server atau sistem yang ingin Anda akses tanpa perlu memberikan kata sandi.
+        Digunakan oleh server untuk mendekripsi data yang dienkripsi oleh kunci pribadi klien.
+
+Dengan menggunakan pasangan kunci ini, proses otentikasi dapat terjadi tanpa perlu memasukkan kata sandi setiap kali Anda mencoba terhubung ke server SSH. Sebagai gantinya, kunci publik di server akan mencocokkan dengan kunci pribadi di sisi klien, memberikan akses tanpa perlu memasukkan kata sandi. Ini meningkatkan keamanan dan kenyamanan saat mengelola koneksi SSH.
+
+Generate the ssh key to connect without password
+
+	ssh-keygen -t rsa -b 2048
+
+then copy the yourKey.pub to server on folder home/$user/.ssh
+Make file authorized_key And Paste the key there
+
+
+sshd anvance Configuratin
+
+mambatasi jumlah percobaan login
+	MaxAuthTries 3
+menentukan user yang diijinkan
+	AllowUsers user1 user2
+menentukan user yang di tolak
+	DenyUsers user3 user4
+untuk grup
+AllowGroups sshusers
+
+menentukan apakah login langsung sebagai root diizinkan. Disarankan untuk diatur sebagai "prohibit-password" atau "without-password" jika root login diperlukan.
+
+PermitRootLogin prohibit-password
+
+
+Opsi Pada SSh
+
+ssh -l username hostname
+untuk menentukan username yang akan login pada hosting
+
+ssh -p 2222 hostname
+Untuk menentukan port pada SSh server
+
+ssh -i /path/to/private-key username@hostname
+memilih key yang akan digunakan untuk autentikasi
+
+ssh -X username@hostname
+gika ingin meneruskan x11, untuk koneksi gui melalui ssh
+
+ssh -v username@hostname
+-v, -vv, -vvv: Memperluas tingkat verbosity (kebisingan) untuk mendapatkan informasi yang lebih rinci saat koneksi dibuat
+
+
+
+Opsi Yang lebih Advance
+
+-L [bind_address:]port:host:hostport: Meneruskan port lokal ke server jarak jauh.
+ssh -L 8080:localhost:80 username@hostname
+
+-R [bind_address:]port:host:hostport: Meneruskan port dari server jarak jauh ke lokal.
+ssh -R 8080:localhost:80 username@hostname
+
+-C: Mengaktifkan kompresi data selama transfer.
+ssh -C username@hostname
+
+-N: Mencegah perintah shell dari dieksekusi setelah login, sering digunakan dengan penerusan port.
+ssh -N -L 8080:localhost:80 username@hostname
+
+Untuk menggunakan kunci tertentu pada perintah ssh, kita dapat menggunakan opsi -i. Opsi ini digunakan untuk menentukan file kunci yang akan digunakan. Misalnya, jika kita memiliki file kunci bernama mykey.pem, kita dapat menggunakan opsi -i sebagai berikut:
+
+ssh -i mykey.pem user@host
+
+Perintah ini akan menggunakan kunci mykey.pem untuk melakukan autentikasi ke host user@host.
+
+Jika kita ingin menggunakan kunci publik tertentu, kita dapat menggunakan opsi -o IdentityFile. Opsi ini digunakan untuk menentukan file kunci publik yang akan digunakan. Misalnya, jika kita memiliki file kunci publik bernama mykey.pub, kita dapat menggunakan opsi -o IdentityFile sebagai berikut:
+
+ssh -o IdentityFile=mykey.pub user@host
+
+Perintah ini akan menggunakan kunci publik mykey.pub untuk melakukan autentikasi ke host user@host.
+
+Berikut adalah contoh penggunaan opsi -i dan -o IdentityFile:
+
+# Menggunakan kunci pribadi
+ssh -i mykey.pem user@host
+
+# Menggunakan kunci publik
+ssh -o IdentityFile=mykey.pub user@host
+
+Selain opsi -i dan -o IdentityFile, kita juga dapat menggunakan opsi -l untuk menentukan nama pengguna yang akan digunakan. Misalnya, jika kita ingin menggunakan kunci mykey.pem untuk melakukan autentikasi sebagai pengguna admin, kita dapat menggunakan opsi -l sebagai berikut:
+
+ssh -i mykey.pem -l admin user@host
+
+Perintah ini akan menggunakan kunci mykey.pem untuk melakukan autentikasi sebagai pengguna admin ke host user@host.
+
+Untuk generate key dengan ekstensi PEM, kita dapat menggunakan perintah ssh-keygen. Perintah ini memiliki opsi -m PEM untuk menentukan bahwa kunci yang akan dihasilkan akan disimpan dalam format PEM.
+
+Berikut adalah contoh penggunaan perintah ssh-keygen untuk generate key dengan ekstensi PEM:
+
+ssh-keygen -m PEM
+
+Perintah ini akan menghasilkan pasangan kunci RSA dengan panjang 2048 bit. Kunci pribadi akan disimpan dalam file id_rsa dan kunci publik akan disimpan dalam file id_rsa.pub.
+
+Jika kita ingin menentukan panjang kunci yang berbeda, kita dapat menggunakan opsi -b. Misalnya, untuk menghasilkan kunci RSA dengan panjang 4096 bit, kita dapat menggunakan perintah berikut:
+
+ssh-keygen -b 4096 -m PEM
+
+Kita juga dapat menentukan nama untuk kunci pribadi dan kunci publik. Misalnya, untuk menghasilkan kunci pribadi bernama mykey.pem dan kunci publik bernama mykey.pub, kita dapat menggunakan perintah berikut:
+
+ssh-keygen -f mykey.pem -m PEM
