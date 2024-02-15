@@ -1,0 +1,11 @@
+sudo su
+
+apt-get install ufw
+
+ufw enable
+
+ufw status
+
+ufw allow <service> or <port>
+
+ufw deny <service> or <port>
