@@ -1,0 +1,35 @@
+
+Load Balancing:
+Penggunaan load balancer dapat memungkinkan distribusi beban trafik di antara beberapa server. 
+Load balancer berada di depan server dan menerima permintaan dari klien, kemudian mengarahkan 
+permintaan ke server yang tersedia. Ini membantu dalam meningkatkan ketersediaan dan kinerja 
+situs web.
+Server Clustering:
+Dalam server clustering, beberapa server dianggap sebagai satu entitas tunggal. Semua server dalam 
+klaster memproses permintaan dengan cara yang seragam. Jika salah satu server mengalami 
+masalah, server lain dalam klaster dapat menangani permintaan tersebut.
+Geographic Redundancy:
+Memiliki server di lokasi fisik yang berbeda (geographic redundancy) dapat meningkatkan 
+ketersediaan dan ketahanan. Pengguna dapat diarahkan ke server terdekat berdasarkan lokasi 
+geografis mereka untuk mengoptimalkan kinerja dan mengatasi gangguan lokal.
+Failover Configuration:
+Konfigurasi failover melibatkan dua atau lebih server di mana satu server berfungsi sebagai 
+cadangan jika server utama mengalami kegagalan. Proses ini dapat diatur untuk otomatis beralih ke 
+server cadangan jika terjadi masalah.
+Penggunaan Subdomain:
+Anda dapat menggunakan subdomain untuk mengarahkan ke server yang berbeda. Misalnya, 
+www.domain.com dapat mengarah ke server satu, sementara app.domain.com mengarah ke server 
+lain. Ini dapat berguna jika Anda memiliki layanan atau aplikasi yang dihosting secara terpisah.
+DNS Round Robin:
+DNS Round Robin adalah cara sederhana di mana beberapa alamat IP dihubungkan dengan satu 
+nama domain. Setiap kali klien membuat permintaan DNS, mereka mendapatkan alamat IP yang 
+berbeda secara bergantian. Meskipun sederhana, ini tidak menangani distribusi beban dengan 
+cerdas dan tidak menangani situasi di mana salah satu server tidak berfungsi.
+Penting untuk mencatat bahwa mendeploy domain ke lebih dari satu server memerlukan konfigurasi 
+dan pemahaman yang baik tentang infrastruktur dan kebutuhan aplikasi Anda. Selain itu, strategi 
+tersebut harus memperhitungkan kemungkinan masalah seperti sinkronisasi data, konsistensi, dan 
+manajemen beban trafik. Jika tidak dikonfigurasi dengan benar, implementasi ini dapat menjadi 
+kompleks dan memerlukan pemeliharaan yang cermat.
+
+
+

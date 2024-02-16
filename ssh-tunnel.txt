@@ -1,0 +1,31 @@
+sh - reverse ssh untuk tunnel web lokal ke vps
+Di VPS domain-nya misalnya
+
+coba.vps.com
+
+Server Lokal (80) -- coba.vps.com (80)<--- user http://coba.vps.com
+
+di Server Lokal
+ssh -NR portvps:localhost:portlocal user@domain.di.vps
+untuk coba.vps.com:8080 ke localhost:80
+
+ssh -NR 8080:localhost:80 user@coba.vps.com
+
+untuk coba.vps.com:80 ke localhost:80 bisa di coba
+
+ssh -R \*:80:localhost:80 -N user@coba.vps.com
+Di Server VPS
+Edit sshd_config
+
+sudo vi /etc/ssh/sshd_config
+Tambahkan
+
+AllowTcpForwarding yes
+GatewayPorts yes
+Restart
+
+sudo su
+/etc/init.d/ssh restart
+
+Dari sisi User
+http://coba.vps.com:8080
