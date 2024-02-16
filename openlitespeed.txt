@@ -42,7 +42,7 @@ Once the repository has been added, the OpenLitespeed server is available for in
 
 For Ubuntu
 
-sudo apt install openlitespeed lsphp74
+sudo 
 
 For CentOS
 
@@ -68,3 +68,62 @@ Voila. If the passwords match, you’ll get a confirmation like the output below
 Administrator's username/password is updated successfully!
 
 At this stage, you can visit your server’s default frontend and the admin control panel in your web browser going to the public IP address of your server followed by the port number.
+
+
+Step 1. Start by ensuring your system is up-to-date. Open the terminal and execute the following commands:
+
+sudo apt update
+sudo apt upgrade
+Step 2. Installing OpenLiteSpeed on Debian 12.
+
+To install OpenLiteSpeed, you need to add the OpenLiteSpeed repository to your Debian 12 system. Execute these commands:
+
+wget -O - https://repo.litespeed.sh | sudo bash
+Now, it’s time to install OpenLiteSpeed. Run the following command:
+
+sudo apt install openlitespeed
+Once the installation is complete, start OpenLiteSpeed using:
+
+sudo systemctl start lsws
+To ensure OpenLiteSpeed starts automatically at boot:
+
+sudo systemctl enable lsws
+Step 3. Installing PHP.
+
+OpenLiteSpeed does not come with PHP by default, so you need to install PHP separately. PHP 8 can be installed using the following command:
+
+sudo apt install lsphp81 lsphp81-common lsphp81-curl lsphp81-mysql lsphp81-opcache lsphp81-imap lsphp81-opcache
+Step 4. Create the Administrator Password.
+
+Creating an administrator password for OpenLiteSpeed can be done through the command line. Here’s a step-by-step guide to accomplish this:
+
+sudo /usr/local/lsws/admin/misc/admpass.sh
+Output:
+
+Please specify the user name of administrator.
+This is the user name required to login the administration Web interface.
+
+User name [admin]: meilana
+
+Please specify the administrator's password.
+This is the password required to login the administration Web interface.
+
+Password: 
+Retype password: 
+Administrator's username/password is updated successfully!
+For detailed information on controlling the server processes, please see the Administration Guide.
+
+Step 5. Configure Firewall.
+
+Securing OpenLiteSpeed with a firewall on Debian Linux involves using a tool like ufw (Uncomplicated Firewall) to control incoming and outgoing network traffic. If UFW isn’t already installed on your Debian system, you can install it using the following command:
+
+sudo apt install ufw
+To permit incoming connections on port 7080 for OpenLiteSpeed’s management interface, use the following command:
+
+sudo ufw allow 7080/tcp
+Check the rules you’ve set up to confirm that only port 7080 is allowed:
+
+sudo ufw status
+After setting up the rules, reload ufw to apply the changes:
+
+sudo ufw reload
