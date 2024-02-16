@@ -1,0 +1,70 @@
+Configuring firewall rules
+
+OpenLiteSpeed uses a couple of non-standard ports which means you need to accept incoming traffic to port 8088 and port 7080 to be able to access the admin panel and the default page of the server.
+
+If you are running Ubuntu, you won’t have a firewall enabled by default but you should set up one for security purposes.
+
+Check that the ufw firewall is installed with the command below.
+
+sudo apt install ufw
+
+Then allow the following ports, set default rule to reject other connections and enable the firewall.
+
+sudo ufw allow 22,53,80,443,7080,8088/tcp
+sudo ufw default reject
+sudo ufw enable
+
+CentOS servers come with firewalld enabled out of the box which requires configuration before OpenLiteSpeed can be installed.
+
+Allow HTTP and HTTPS access as well as the custom ports used by OpenLiteSpeed with the commands below. Then reload the firewall rules to enable the changes.
+
+sudo firewall-cmd --add-service={http,https} --permanent
+sudo firewall-cmd --add-port={8088/tcp,7080/tcp} --permanent
+sudo firewall-cmd --reload
+
+Once you’ve configured your firewall to allow the necessary ports and services, continue on with the OpenLiteSpeed install itself.
+3. Installing OpenLiteSpeed server
+
+Since the OpenLiteSpeed project maintains repositories for both CentOS and Ubuntu, we need not compile it ourselves. Simply add the repository on the server using the commands below.
+
+On Ubuntu, use the script provided by OpenLiteSpeed to add the correct repository to your OS version. Afterwards, update the repo lists.
+
+wget -O - http://rpms.litespeedtech.com/debian/enable_lst_debian_repo.sh | sudo bash
+sudo apt update
+
+On CentOS, download the repository configuration file. Also, install the extra packages repository and update the repo lists.
+
+sudo rpm -Uvh http://rpms.litespeedtech.com/centos/litespeed-repo-1.1-1.el8.noarch.rpm
+sudo dnf install epel-release
+sudo dnf update
+
+Once the repository has been added, the OpenLitespeed server is available for installation using the commands below. In OpenLiteSpeed, we have customized PHP processors. For this tutorial, we will use the latest version of it – lsphp74
+
+For Ubuntu
+
+sudo apt install openlitespeed lsphp74
+
+For CentOS
+
+sudo dnf install openlitespeed lsphp74
+
+We have then installed OpenLiteSpeed and a PHP processor for that. However, we still need to let our server know which PHP processor it should be utilized for normal operations. To do that, create a soft link to the PHP processor we have just installed.
+
+sudo ln -sf /usr/local/lsws/lsphp74/bin/lsphp /usr/local/lsws/fcgi-bin/lsphp5
+
+That’s it! OpenLiteSpeed should now be up and running. However, there are still a few things we need to configure to secure the site.
+4. Setting admin password
+
+Just like any other web hosting control panel, the OpenLiteSpeed server has an admin dashboard. To access it securely, create an admin account and set a password using the following command.
+
+sudo /usr/local/lsws/admin/misc/admpass.sh
+
+Once you run the above script, you will be prompted to input the admin username. If you do not type in a username, the system will use the default admin as a username.
+
+The username input is followed by a password. It will then ask you to confirm the password by retyping it. Retype the password and hit enter.
+
+Voila. If the passwords match, you’ll get a confirmation like the output below.
+
+Administrator's username/password is updated successfully!
+
+At this stage, you can visit your server’s default frontend and the admin control panel in your web browser going to the public IP address of your server followed by the port number.
