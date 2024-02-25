@@ -7,3 +7,7 @@ Lapisan data link, hanya mengatur komunikasi antara dua komputer yang menggunaka
 Lapisan Network, mengatur perjalanan paket dari melewati banyak jaringan dengan berbagai media fisik yang berbeda. Ada yang melalui ethernet, ada yang melalui WiFi, ada yang melalui fiber optik dll. Informasi yang diberikan hanya IP address sumber dan IP tujuan, tidak ada informasi melewati mana, tidak ada mekanisme untuk menjamin keandalan data, dan menjamin bahwa paket akan sampai walaupun melewati banyak jaringan.
 Lapisan Transport, lapisan protocol ini yang akan menjamin bahwa data akan sampai dan berurutan. Jika ada data yang hilang di jalan, maka ada mekanisme untuk meminta untuk mengirim data ulang jika dibutuhkan.
 Lapisan aplikasi, setelah data dipastikan sampai dengan baik, maka kita bisa menjalankan aplikasi di atas jaringan Internet. Kita bisa mengirimkan text, mengirimkan file, mengirimkan audio, video, gambar dll. Aplikasi dapat berbentuk e-mail, chatting, e-commerce, e-learning dll.
+
+
+“Please Don't Look In The Attic,” yang merupakan singkatan untuk “
+Physical / Data Link / Internet / Transport / Application.”
