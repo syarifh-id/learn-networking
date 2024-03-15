@@ -1,0 +1,10 @@
+## Bing
+DNS resolver pada Windows 10 dapat diatur dengan mudah. Berikut adalah langkah-langkahnya:
+- Buka Network & Internet melalui menu Start.
+- Klik Change adapter options.
+- Jika Anda menggunakan koneksi Wi-Fi, klik kanan pada koneksi Wi-Fi dan pilih Properties.
+- Pilih Internet Protocol Version 4.
+- Pada bagian Use following DNS server addresses, isikan:
+    - Preferred: 1.1.1.1
+    - Alternate: 1.0.0.1
+Setelah itu, klik OK untuk menyimpan pengaturan. Dengan menggunakan DNS resolver 1.1.1.1 dari Cloudflare, Anda dapat mengalami koneksi yang lebih baik dan privasi yang lebih aman saat menjelajah dunia maya . Semoga bermanfaat! 🌐🔍

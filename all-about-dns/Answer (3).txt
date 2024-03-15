@@ -1,0 +1,32 @@
+## Bing
+Tentu! Berikut adalah contoh pengaturan DNS resolver pada MikroTik dan OpenWRT melalui command-line interface (CLI):
+MikroTik:- Mengaktifkan MikroTik DNS Server:
+    - Masuk ke Winbox atau Webfig dan buka menu IP > DNS.
+    - Aktifkan fitur DNS Server dengan menjalankan perintah berikut di CLI:
+
+/ip dns set allow-remote-requests=yes
+
+    - Set cache max TTL menjadi 1 hari:
+
+/ip dns set cache-max-ttl=1d
+
+- Menambahkan DNS Server:
+    - Tambahkan DNS server seperti Google (8.8.8.8) atau Cloudflare (1.1.1.1):
+
+/ip dns set servers=8.8.8.8,1.1.1.1
+
+OpenWRT:- Mengatur DNS Resolver:
+    - Masuk ke SSH atau telnet ke router OpenWRT.
+    - Edit file konfigurasi DNS resolver:
+
+vi /etc/config/dhcp
+
+    - Tambahkan server DNS (misalnya Google DNS 8.8.8.8) ke bagian config dnsmasq:
+
+option server '8.8.8.8'
+
+    - Simpan perubahan dan restart layanan DNS:
+
+/etc/init.d/dnsmasq restart
+
+Dengan menggunakan CLI, Anda dapat mengatur DNS resolver dengan lebih presisi dan sesuai kebutuhan jaringan Anda. Semoga informasi ini membantu! 🌐🔍.

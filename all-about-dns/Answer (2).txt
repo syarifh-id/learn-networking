@@ -1,0 +1,21 @@
+## Bing
+Tentu! Berikut adalah contoh pengaturan DNS resolver pada MikroTik dan OpenWRT:
+MikroTik:- Mengatur DNS Server pada MikroTik:
+    - Masuk ke Winbox atau Webfig dan buka menu IP > DNS.
+    - Tambahkan beberapa DNS server, seperti Google (8.8.8.8) atau Cloudflare (1.1.1.1).
+    - Pastikan opsi Allow remote requests diaktifkan agar MikroTik merespons permintaan DNS dari klien melalui TCP dan UDP.
+    - Set cache size menjadi 5000 dan cache max TTL menjadi 1 hari.
+- Konfigurasi DNSCrypt pada MikroTik:
+    - Anda juga dapat mengaktifkan DNSCrypt untuk mengenkripsi lalu lintas DNS. Caranya adalah dengan mengatur DNS server ke alamat DNSCrypt server (misalnya Cloudflare DNSCrypt).
+OpenWRT:- Static Leases:
+    - Pada LuCI, masuk ke DHCP and DNS > Static Leases.
+    - Tambahkan alamat IPv4 tetap (misalnya 192.168.1.22) dan nama (misalnya mylaptop) untuk perangkat dengan alamat MAC tertentu.
+    - Atau tambahkan alamat IPv6 dengan DUID dan host ID yang sesuai.
+    - Pastikan klien terhubung ulang untuk menerapkan perubahan.
+- Ignore DHCP Requests:
+    - Anda dapat mengabaikan permintaan DHCP dari klien tertentu dengan mengatur IP menjadi "ignore" pada konfigurasi static leases.
+    - Juga, Anda dapat mengabaikan semua permintaan DHCP kecuali dari klien yang dikonfigurasi dengan static leases atau /etc/ethers.
+- DNS Options:
+    - Anda dapat mengonfigurasi opsi DNS di bawah bagian DHCP pool melalui dhcp_option.
+    - Misalnya, mengatur gateway alternatif, server DNS, dan server NTP.
+Ingatlah bahwa pengaturan DNS harus disesuaikan dengan kebutuhan jaringan Anda. Semoga informasi ini membantu! 🌐🔍
