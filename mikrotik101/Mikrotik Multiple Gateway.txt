@@ -1,0 +1,47 @@
+Mikrotik: Multiple Gateway - Load Balancing
+
+Ada 2 sambungan ke Internet lewat ether1 dan ether2
+
+# Kalau WAN IP Dynamic
+/ip dhcp-client print
+/ip dhcp-client add interface=ether1 disable=no
+/ip dhcp-client add interface=ether2 disable=no
+/ip route print
+
+
+# kalau WAN IP Statik dapat menggunakan perintah di bawah ini.
+/ip address
+add address=192.168.101.2/30 interface=ether1
+add address=192.168.102.2/30 interface=ether2
+add address=10.10.10.1/24 interface=wlan2
+/ip dns
+set allow-remote-requests=yes primary-dns=208.67.222.222 secondary-dns=208.67.220.220
+/ip route
+add dst-address=0.0.0.0/0 gateway=192.168.101.1 distance=1 check-gateway=ping
+add dst-address=0.0.0.0/0 gateway=192.168.102.1 distance=2 check-gateway=ping
+
+Setup NAT
+
+/ip firewall nat
+add action=masquerade chain=srcnat out-interface=ether1
+add action=masquerade chain=srcnat out-interface=ether2
+
+Setup LAN
+
+/interface bridge
+add name=bridge1
+/interface bridge port
+add bridge=bridge1 interface=ether3
+add bridge=bridge1 interface=ether4
+add bridge=bridge1 interface=ether ...dst s/d 8 (tergantung jumlah ethernet card yang dialokasikan).
+
+/ip address add interface=bridge1 address=172.16.100.1/24
+/ip route add gateway=bridge1
+
+/ip dns set servers=8.8.8.8
+/ip dns set allow-remote-request=yes
+
+Setup DHCP Server dapat menggunakan
+
+/ip dhcp-server setup
+

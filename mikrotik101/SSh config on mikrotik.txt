@@ -1,0 +1,31 @@
+SSh config on mikrotik
+
+sudo vi /etc/ssh/ssh_config
+
+Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc
+
+ip address print
+ip address add interface=etherX address=XXX.XXX.XXX.XXX/24
+
+
+ip dns set servers=8.8.8.8
+ip dns set allow-remote-request=yes
+
+
+
+/ip dhcp-client add interface=ether3 disabled=no
+/ip dhcp-client enable
+/ip dhcp-client renew
+/ip dhcp-client print
+
+/ip firewall nat add chain=srcnat out-interface=ether1 action=masquerade  
+/ip firewall nat print
+
+interface bridge add name=lanBridge
+interface bridge port add bridge=lanBridge interface=ether8
+interface bridge port add bridge=lanBridge interface=ether7
+interface bridge port add bridge=lanBridge interface=ether6
+
+
+/interface wireless
+set wlan2 mode=ap-bridge band=2.4ghz-b/g ssid=Mikrotik disabled=no

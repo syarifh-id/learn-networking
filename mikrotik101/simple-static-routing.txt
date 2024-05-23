@@ -1,0 +1,46 @@
+simple static routing use mikrotik
+
+Mikrotik#1
+e1 --> NAT			
+e2 --> 192.168.1.1/24 == vpc1
+e3 --> 192.168.10.1/24 == e1 Mikrotik#2
+vpc1 -->192.168.1.11
+
+Mikrotik#2
+e1 -->192.168.10.2/24 == e3 Mikrotik#1
+e2 -->192.168.2.1/24 == vpc2
+vpc2 -->192.168.10.11
+
+
+Konfigurasi
+
+Router1:
+
+/ip dhcp-client add interface=ether1 disabled=no
+/ip dhcp-client enable 0
+
+/ip address
+add address=192.168.1.1/24 interface=ether2
+add address=192.168.10.1/24 interface=ether3
+
+/ip firewall nat add chain=srcnat out-interface=ether1 action=masquerade
+/ip firewall nat print
+
+/ip/route add dst-address=192.168.2.0/24 gateway=192.168.10.2
+
+vpc1
+ip 192.168.1.11/24 192.168.1.1
+ip dns 8.8.8.8
+
+
+Mikrotik#2
+
+ip address/ add interface=ether1 address=192.168.10.2/24
+ip address/ add interface=ether2 address=192.168.2.1/24
+ip route add gateway=192.168.10.1
+ip dns/set servers=8.8.8.8
+
+
+vpc2
+ip 192.168.2.11/24 192.168.2.1
+ip dns 8.8.8.8

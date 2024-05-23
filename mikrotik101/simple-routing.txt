@@ -1,0 +1,29 @@
+simple routing use mikrotik
+
+e1 --> NAT			
+e2 --> 192.168.1.1/24
+e3 --> 192.168.10.1/24
+vpc1 -->192.168.1.11
+vpc2 -->192.168.10.11
+
+
+Konfigurasi
+
+Router1:
+
+/ip dhcp-client add interface=ether1 disabled=no
+/ip dhcp-client enable 0
+
+/ip address
+add address=192.168.1.1/24 interface=ether2
+add address=192.168.10.1/24 interface=ether3
+/ip firewall nat add chain=srcnat out-interface=ether1 action=masquerade
+/ip firewall nat print
+
+vpc1
+ip 192.168.1.11/24 192.168.1
+ip dns 8.8.8.8
+
+vpc2
+ip 192.168.10.11/24 192.168.10
+ip dns 8.8.8.8
