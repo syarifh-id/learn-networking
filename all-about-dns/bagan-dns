@@ -1,0 +1,39 @@
++--------------------------+
+|                          |
+|         Client           |
+|                          |
++--------------------------+
+      ^        ^
+      |        |
+      |        |
+      v  cache v 
++----------------------+       
+|   DNS Resolver       |
+| (Recursive Resolver) |       
+|                      |       
++----------------------+       
+      ^       ^
+      |       |
+      |       |
+      v cache v
++-------------------------------------+
+|                                     |
+|  Recursive DNS Server (Google       |
+|  Public DNS, ISP DNS, etc.)         |
+|                                     |
++-------------------------------------+
+      ^       ^
+      |       |
+      |       |
+      v cache v
++-------------------+
+|                   |
+| Authoritative DNS |
+|      Server       |
+| registrar, hosting|
++-------------------+
+
+-   The DNS resolver acts as the initial contact point for clients seeking DNS resolution.
+-   Recursive DNS servers play a crucial role in efficiently managing DNS queries and reducing the load on authoritative DNS servers.
+-   Authoritative DNS servers maintain the definitive DNS information for their respective domains.
+-   Caching at various levels optimizes DNS resolution performance.
